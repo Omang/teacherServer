@@ -144,11 +144,11 @@ const userApp = async(req, res)=>{
 }
 const viewApp = async(req, res)=>{
   
-    const {user_id} = req.body;
+    const {id} = req.params;
 
     try{
 
-        const viewapp = await License.findOne({user_id: user_id}).populate('user_id');
+        const viewapp = await License.findOne({user_id:id}).populate('user_id');
 
         res.json(viewapp);
 
@@ -214,7 +214,7 @@ const GetuserSms = async(req, res)=>{
 const getsms = async(req, res)=>{
     const {id} = req.params;
     try{
-        const theone = await User.find({ "message": {"$in" : [id]}});
+        const theone = await Comm.findById(id);
 
         res.json(theone);
     }catch(e){

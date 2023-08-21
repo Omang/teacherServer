@@ -1,5 +1,6 @@
 const User = require('../models/UserModel');
 const {generateRefreshToken} = require('../config/refreshToken');
+const {generateToken} = require('../config/jwToken');
 
 
 
@@ -37,10 +38,9 @@ const updateprofile = async(req, res)=>{
         mobilenumber: mobilenumber,
         DOB: DOB,
         POB: POB,
-        education:{
           $push:{certificates: certificates},
           experience: experience
-        }
+       
     },{new:true});
 
     res.json(profileadd);
@@ -93,11 +93,11 @@ const logout =async(req, res)=>{
       
       return res.status(204) //forbidden
     }else{
-      await User.findOneAndUpdate(refreshToken, {
+      await User.findOneAndUpdate({_id:user._id.toString()}, {
       refreshToken: ""
     });
    
-     res.status(204).json({logout: "logged out"}); //forbidden
+     res.json({logout: "logged out"}); //forbidden
     }  
 
 }

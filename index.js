@@ -15,9 +15,7 @@ const PORT = 3000;
 
 app.use(body_parser.json());
 
-app.use('/', (req, res)=>{
-    res.json({message: 'welcome to our server'});
-})
+
 app.use('/user', UserRoutes);
 app.use('/license', LicenseRoutes);
 app.use('/rep', RepRoutes);

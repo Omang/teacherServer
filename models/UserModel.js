@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const UserSchema = new mongoose.Schema({
-   firstname :{type: String, required: true},
-   lastname: {type: String, required: true},
+   firstname :{type: String},
+   lastname: {type: String},
    role:{type:String},
    refreshToken:{type:String},
    gender: {type:String},
@@ -12,10 +12,8 @@ const UserSchema = new mongoose.Schema({
    mobilenumber: {type:String},
    DOB: {type:String},
    POB: {type:String},
-   Education: {
-    certificates:[String],
-    experience:{type:String},
-   },
+   certificates:[String],
+   experience:{type:String},
    enhanced_materials: [String],
    teacher_license: [{type: mongoose.Schema.Types.ObjectId, ref: "License"}],
    teacher_active:{type:Boolean, default: false},
