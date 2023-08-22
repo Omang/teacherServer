@@ -2,15 +2,29 @@ const User = require('../models/UserModel');
 const {generateRefreshToken} = require('../config/refreshToken');
 const {generateToken} = require('../config/jwToken');
 
-
-
-const registeruser =async(req, res)=>{
-    const {email, password} = req.body;
+const getUser =async(req, res)=>{
+    const {id} = req.params;
     try{
 
-        const newUser = await User.create({email:email, password: password});
+        const userone = await User.findById(id);
+        res.json(userone);
+
+    }catch(e){
+        throw new Error(e);
+    }
+}
+
+const registeruser =async(req, res)=>{
+    const {email, password, role} = req.body;
+    try{
+       const usercheck = await User.findOne({email: email});
+       if(usercheck){
+        res.json({message: 'User exists'});
+       }else{
+        const newUser = await User.create({email:email, password: password, role:role});
 
         res.json({message: 'User created'});
+       }
 
     }catch(e){
         throw new Error(e);
@@ -102,4 +116,4 @@ const logout =async(req, res)=>{
 
 }
 
-module.exports = {registeruser, loginuser, logout, updateprofile};
+module.exports = {registeruser, loginuser, logout, updateprofile, getUser};

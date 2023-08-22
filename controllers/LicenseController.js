@@ -67,7 +67,7 @@ const AppPay = async(req, res)=>{
                     $push:{message: sendsms._id.toString()}
                 }, {new:true});
 
-                res.json({message: 'payment made'});
+                res.json(updatepayment);
 
               }
           
@@ -221,5 +221,36 @@ const getsms = async(req, res)=>{
         throw new Error(e);
     }
 }
+const pendingdocs = async(req, res)=>{
+    try{
 
-module.exports = {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms, approveapp, userApp, LicensePay, AppPay, allLicense};
+        const getpending = await License.find({
+            $and: [{app_payment: true}, {license_payment: false}]
+        }).populate('user_id');
+
+        res.json(getpending);
+
+
+    }catch(e){
+        throw new Error(e);
+    }
+}
+
+const approveddocs = async(req, res)=>{
+    try{
+
+        const getpending = await License.find({
+            $and: [{app_payment: true}, {license_approve: true}]
+        }).populate('user_id');
+
+        res.json(getpending);
+
+
+    }catch(e){
+        throw new Error(e);
+    }
+}
+
+
+
+module.exports = {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms, approveapp, userApp, LicensePay, AppPay, allLicense, pendingdocs, approveddocs};

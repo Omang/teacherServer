@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms, approveapp, userApp, LicensePay, AppPay, allLicense} = require('../controllers/LicenseController');
+const {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms,
+ approveapp, userApp, LicensePay, 
+ AppPay, allLicense, pendingdocs, approveddocs} = require('../controllers/LicenseController');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
 router.post('/new', authMiddleware, NewApp);
@@ -16,5 +18,7 @@ router.get('/getapp/:id', authMiddleware, userApp);
 router.put('/paylicense', authMiddleware, LicensePay);
 router.put('/payapplication', authMiddleware, AppPay);
 router.get('/alllicenses/:id', authMiddleware, isAdmin, allLicense);
+router.post('/getpending', pendingdocs);
+router.post('/getapproved', approveddocs);
 
 module.exports = router;

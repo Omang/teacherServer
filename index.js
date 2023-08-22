@@ -14,7 +14,12 @@ dbConnect();
 const PORT = 3000;
 
 app.use(body_parser.json());
+app.use(cors({
+ 
+ credentials: true,
+ origin: "http://localhost:5173"
 
+}));
 
 app.use('/user', UserRoutes);
 app.use('/license', LicenseRoutes);

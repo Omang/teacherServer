@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
    refreshToken:{type:String},
    gender: {type:String},
    password: {type:String},
-   email: {type:String},
+   email: {type:String, required: true, unique: true, trim: true},
    mobilenumber: {type:String},
    DOB: {type:String},
    POB: {type:String},
