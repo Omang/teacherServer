@@ -4,12 +4,13 @@ const router = express.Router();
 
 const {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms,
  approveapp, userApp, LicensePay, 
- AppPay, allLicense, pendingdocs, approveddocs} = require('../controllers/LicenseController');
+ AppPay, allLicense, pendingdocs, approveddocs, adminApp} = require('../controllers/LicenseController');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
 router.post('/new', authMiddleware, NewApp);
 router.put('/renew', authMiddleware, RenewApp);
 router.get('/view/:id', authMiddleware, viewApp);
+router.get('/adminview/:id', authMiddleware, adminApp);
 router.post('/correctapp', authMiddleware, isAdmin, CorrectApp);
 router.get('/getsms/:id', authMiddleware, getsms);
 router.post('/usersms', authMiddleware, GetuserSms);

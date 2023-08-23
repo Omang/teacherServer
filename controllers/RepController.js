@@ -75,13 +75,28 @@ const addschool = async(req, res)=>{
 }
 
 const addteacher = async(req, res)=>{
-    const {id, teacher_id} = req.body;
+    console.log(req.body);
+    const {id, firstname, lastname, email} = req.body;
     try{
-        const addone = await School.findByIdAndUpdate(id,{
-            $push:{school_teachers: teacher_id}
+        const findmail = await User.findOne({email: email});
+        if(findmail){
+               res.json({message: true});
+        }else{
+            const createTeacher = await User.create({
+            firstname: firstname,
+            lastname: lastname,
+            password: '12345',
+            email: email
+        });
+        if(createTeacher){
+            const addone = await School.findByIdAndUpdate(id,{
+            $push:{school_teachers: createTeacher._id.toString()}
         },{new:true});
+         console.log(createTeacher);
+        res.json(createTeacher);
+        }
 
-        res.json(addone);
+        }
     }catch(e){
         throw new Error(e)
     }
@@ -93,7 +108,7 @@ const schoolteachers = async(req, res)=>{
 
         const getTeachers = await School.findById(id).populate('school_teachers');
 
-        res.json(getTeachers);
+        res.json(getTeachers.school_teachers);
 
     }catch(e){
         throw new Error(e);
@@ -112,4 +127,18 @@ const allschools = async(req, res)=>{
     }
 }
 
-module.exports ={Addrep, UserReps, ViewRep, DeleteRep, addschool, addteacher, allschools, schoolteachers};
+const getSchool = async(req, res)=>{
+    const {id} = req.params;
+    try{
+
+        const getTeachers = await School.findById(id);
+
+        res.json(getTeachers);
+
+    }catch(e){
+        throw new Error(e);
+    }
+}
+
+
+module.exports ={Addrep, UserReps, ViewRep, DeleteRep, addschool, addteacher, allschools, schoolteachers, getSchool};

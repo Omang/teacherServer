@@ -142,15 +142,34 @@ const userApp = async(req, res)=>{
     }
 
 }
+const adminApp = async(req, res)=>{
+  
+    const {id} = req.params;
+    
+
+    try{
+
+        const viewapp = await License.findById(id).populate('user_id');
+
+        res.json(viewapp);
+        
+
+    }catch(e){
+        throw new Error(e);
+    }
+
+}
 const viewApp = async(req, res)=>{
   
     const {id} = req.params;
+    console.log(id);
 
     try{
 
         const viewapp = await License.findOne({user_id:id}).populate('user_id');
 
         res.json(viewapp);
+        console.log(viewapp)
 
     }catch(e){
         throw new Error(e);
@@ -253,4 +272,5 @@ const approveddocs = async(req, res)=>{
 
 
 
-module.exports = {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms, approveapp, userApp, LicensePay, AppPay, allLicense, pendingdocs, approveddocs};
+module.exports = {NewApp, RenewApp, viewApp, CorrectApp, getsms, GetuserSms,
+ approveapp, userApp, LicensePay, AppPay, allLicense, pendingdocs, approveddocs, adminApp};
